@@ -18,14 +18,21 @@ const App = () => {
     const newPerson = {
       name: newName
     }
-    personExists(newPerson)
-    setPersons(persons.concat(newPerson))
-    setNewName('')
+    if ( !personExists(newPerson) )
+    {
+      setPersons(persons.concat(newPerson))
+      setNewName('')
+      
+    }
+    else {
+      alert(`${newPerson.name} already exists in the phonebook`)
+    }
   }
 
   const personExists = (person) => {
-     const foundPerson = persons.find((p) => person.name === p.name)
-    console.log('found', foundPerson);
+     const foundPerson = persons.find((p) => person.name.toLowerCase() === p.name.toLowerCase())
+     
+     return foundPerson
   }
 
   return (
