@@ -47,7 +47,6 @@ const App = () => {
 
   const addNewPerson = (event) => {
     event.preventDefault()
-    console.log("Got the form", event.target);
     const newPerson = {
       name: newName,
       number: newNumber,
@@ -80,6 +79,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <Filter filter={filteredPerson} handleFilter={handleFilterChange} />
+      <h3>Add a new</h3>
       <PersonForm 
         name={newName}
         handleName={handleNameChange}
