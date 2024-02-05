@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import Persons from './components/Persons'
+import Filter from './components/Filter'
+import PersonForm from './components/PersonForm'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -9,10 +11,16 @@ const App = () => {
     { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
   ]) 
 
-  const [filter, setFilter] = useState()
-  const [personsToShow, setPersonsToShow] = useState(persons) 
+  const [filteredPerson, setFilteredPerson] = useState('')
+  const [showAllPersons, setShowAllPersons] = useState(true) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber ] = useState('')
+  const allPersons = [ ...persons]
+
+  const personsToShow = showAllPersons ? allPersons : 
+  allPersons.filter((person) => person.name.toLowerCase().includes(filteredPerson.toLocaleLowerCase()))
+
+
 
   /***
    * Handlers
@@ -25,6 +33,15 @@ const App = () => {
 
   const handleNumberChange = (event) => {
     setNewNumber(event.target.value)
+  }
+
+  const handleFilterChange = (event) => {
+    const value = event.target.value
+    setFilteredPerson(value)
+
+    value !== "" 
+    ? setShowAllPersons(false)
+    : setShowAllPersons(true)    
   }
 
 
@@ -40,6 +57,8 @@ const App = () => {
     {
       setPersons(persons.concat(newPerson))
       setNewName('')
+      setNewNumber('')
+      
       
     }
     else {
@@ -47,13 +66,6 @@ const App = () => {
     }
   }
 
-  const filterPersons = (event) =>{
-    const filteredPersons = persons.filter((person) => {
-      return person.name.toLowerCase().includes(event.target.value.toLowerCase())
-    })
-    setPersonsToShow(filteredPersons)
-
-  }
 
   /**
    * Validation functions
@@ -67,34 +79,14 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        <p>
-          filter shown with <input 
-                                  type="text" 
-                                  value={filter}
-                                  onChange={filterPersons} 
-                            />
-        </p>
-      </div>
-      <form onSubmit={addNewPerson}>
-        <div>
-          name: <input
-            value={newName}
-            onChange={handleNameChange}
-          />
-        </div>
-        <div>
-          number: <input 
-            value={newNumber} 
-            onChange={handleNumberChange}
-          />
-        </div>
-        <div>
-          <button type="submit">
-            add
-          </button>
-        </div>
-      </form>
+      <Filter filter={filteredPerson} handleFilter={handleFilterChange} />
+      <PersonForm 
+        name={newName}
+        handleName={handleNameChange}
+        number={newNumber}
+        handleNumber={handleNumberChange}
+        handleSubmit={addNewPerson}
+        />
       <Persons persons={personsToShow} />
     </div>
   )
