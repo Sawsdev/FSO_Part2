@@ -83,6 +83,24 @@ const App = () => {
     }
   }
 
+  const deletePerson = (id) => {
+    const personToDelete = persons.find(p => p.id === id)
+    if (personToDelete) {
+      if(window.confirm(`Delete ${personToDelete.name}`)){
+
+        personService
+          .removePerson(id)
+          .then(removedPerson => {
+            alert(`${removedPerson.name} has been removed`)
+            getPersons()
+          })
+          .catch(error => {
+            console.log(`The person is already removed or is missing`, error);
+          })
+      }
+    }
+  }
+
 
   /**
    * Validation functions
@@ -105,7 +123,7 @@ const App = () => {
         handleNumber={handleNumberChange}
         handleSubmit={addNewPerson}
         />
-      <Persons persons={personsToShow} />
+      <Persons persons={personsToShow} removePerson={deletePerson}/>
     </div>
   )
 }
