@@ -3,6 +3,7 @@ import axios from 'axios'
 import Persons from './components/Persons'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
+import personService from './services/persons'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
@@ -14,11 +15,11 @@ const App = () => {
   
   const getPersons = () => {
 
-    axios
-      .get("http://localhost:3001/persons")
-      .then(response => {
+    personService
+      .getAllPersons()
+      .then(initialPersons => {
         console.log("Promise fullfiled");
-        setPersons(response.data)
+        setPersons(initialPersons)
       })
   }
   useEffect(getPersons, [])
@@ -58,7 +59,7 @@ const App = () => {
 
   const addNewPerson = (event) => {
     event.preventDefault()
-    const url = 'http://localhost:3001/persons'
+    
     const newPerson = {
       name: newName,
       number: newNumber,
@@ -66,10 +67,10 @@ const App = () => {
     }
     if ( !personExists(newPerson) )
     {
-      axios
-        .post(url, newPerson)
-        .then(response => {
-          setPersons(persons.concat(response.data))
+      personService
+        .createPerson(newPerson)
+        .then(createdPerson => {
+          setPersons(persons.concat(createdPerson))
           setNewName('')
           setNewNumber('')
           
