@@ -58,6 +58,7 @@ const App = () => {
 
   const addNewPerson = (event) => {
     event.preventDefault()
+    const url = 'http://localhost:3001/persons'
     const newPerson = {
       name: newName,
       number: newNumber,
@@ -65,9 +66,14 @@ const App = () => {
     }
     if ( !personExists(newPerson) )
     {
-      setPersons(persons.concat(newPerson))
-      setNewName('')
-      setNewNumber('')
+      axios
+        .post(url, newPerson)
+        .then(response => {
+          setPersons(persons.concat(response.data))
+          setNewName('')
+          setNewNumber('')
+          
+        })
       
       
     }
