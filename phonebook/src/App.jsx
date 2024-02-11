@@ -65,7 +65,8 @@ const App = () => {
       number: newNumber,
       id: persons.length + 1
     }
-    if ( !personExists(newPerson) )
+    const existingPerson = personExists(newPerson)
+    if ( !existingPerson)
     {
       personService
         .createPerson(newPerson)
@@ -79,7 +80,18 @@ const App = () => {
       
     }
     else {
-      alert(`${newPerson.name} already exists in the phonebook`)
+      if(window.confirm(`${newPerson.name} already exists in the phonebook, replace the old number with a new one? `)){
+        const personToUpdate = {...existingPerson, number: newPerson.number}
+        
+        personService
+          .updatePerson(existingPerson.id, personToUpdate)
+          .then(updatedPerson => {
+            alert(
+              `${updatedPerson.name} has updated!`
+            )
+            getPersons()
+          })
+      }
     }
   }
 
@@ -100,6 +112,7 @@ const App = () => {
       }
     }
   }
+
 
 
   /**
