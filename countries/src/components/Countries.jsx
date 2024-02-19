@@ -1,6 +1,7 @@
 import Country from "./Country";
+import DisplaySelectableCountry from "./DisplayedCountry";
 
-const Countries = ({countries}) => {
+const Countries = ({countries, handleClick}) => {
     console.log("received countries", countries);
     if(!countries || countries.length === 0)
     {
@@ -18,7 +19,7 @@ const Countries = ({countries}) => {
     {
         return <div>
             {countries.map( country =>
-                    <p key={country.name.common}>{country.name.common}</p>
+                    <DisplaySelectableCountry  key={country.name.common} country={country} handleClick={handleClick}/>
                 )
             }
         </div>

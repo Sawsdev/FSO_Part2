@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import countryService from './services/countries'
 import Countries from './components/Countries'
+import Search from './components/Search'
+
 
 function App() {
   const [filter, setFilter] = useState('')
@@ -8,12 +10,10 @@ function App() {
   const [showFiltered, setShowFiltered] = useState(false)
 
   const getCountries = () => {
-    console.log("fetching countries data...");
     
       countryService
         .getAllCountries()
         .then( initialCountries => {
-          console.log("fetched", initialCountries);
           setCountries(prevCountries => prevCountries.concat(initialCountries))
         })
 
@@ -23,26 +23,30 @@ function App() {
   useEffect(getCountries,[])
 
   const filteredCountries = showFiltered 
-  ? countryService.filterCountries(filter, countries)
+  ? countryService.filterCountries(filter.toLowerCase(), countries)
   : countries
   const handleFilter = (event) => {
-    const text = event.target.value.toLowerCase()
+    const text = event.target.value
     setFilter(text)
-    console.log('entered text', text);
-    console.log("countries", countries);
     text === "" 
     ? setShowFiltered(false)
     : setShowFiltered(true)
 
   }
 
+  const handleClick = (event) => {
+
+    /**
+     * Change the input to have the country name
+     * and show the single country
+     */
+    setFilter(event.target.dataset.name)
+  }
+
   return (
     <div>
-        <div>
-          Find countries <input type="text" onChange={handleFilter} value={filter}/>
-        </div>
-        <Countries countries={filteredCountries} />
-      
+        <Search handleFilter={handleFilter} filter={filter}/>
+        <Countries countries={filteredCountries} handleClick={handleClick} />
     </div>
   )
 }
