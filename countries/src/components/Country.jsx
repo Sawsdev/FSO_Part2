@@ -9,7 +9,6 @@ const Country = ({country}) => {
         countryService
         . getCountryCapitalWeather(country.latlng[0], country.latlng[1])
         .then(weather => {
-            console.log("current weather", weather);
             setCurrentWeather(weather)
         })
     }
