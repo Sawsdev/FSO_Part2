@@ -18,7 +18,7 @@ const filterCountries = (name, countries) => {
 }
 
 const getCountryCapitalWeather = (lat, lon) => {
-    console.log(api_key);
+    
     const url = `${weatherBaseUrl}?lat=${lat}&lon=${lon}&appid=${api_key}`
     return axios
         .get(url)
