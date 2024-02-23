@@ -2,7 +2,7 @@ import Country from "./Country";
 import DisplaySelectableCountry from "./DisplayedCountry";
 
 const Countries = ({countries, handleClick}) => {
-    console.log("received countries", countries);
+   
     if(!countries || countries.length === 0)
     {
         return <div>
