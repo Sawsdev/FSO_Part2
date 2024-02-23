@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react"
 import countryService from '../services/countries.js'
+import Weather from "./Weather"
 
 const Country = ({country}) => {
 
     const [currentWeather, setCurrentWeather] = useState({})
     const getCountryWeater = () => {
         countryService
-        . getCountryCapitalWeather(country.capitalInfo.latlng[0], country.capitalInfo.latlng[1])
+        . getCountryCapitalWeather(country.latlng[0], country.latlng[1])
         .then(weather => {
             console.log("current weather", weather);
             setCurrentWeather(weather)
@@ -36,7 +37,7 @@ const Country = ({country}) => {
             </ul>
             <br />
             <img src={flags.png} alt={`Country ${country.name.common} flag`} />
-            
+            <Weather weather={currentWeather} capital={capital} />
         </div>
     )
 
