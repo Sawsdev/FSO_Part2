@@ -22,7 +22,6 @@ const App = () => {
     personService
       .getAllPersons()
       .then(initialPersons => {
-        console.log("Promise fullfiled");
         setPersons(initialPersons)
       })
   }
