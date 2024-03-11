@@ -118,7 +118,7 @@ const App = () => {
         personService
           .removePerson(id)
           .then(removedPerson => {
-            alert(`${removedPerson.name} has been removed`)
+            alert(`${personToDelete.name} has been removed`)
             getPersons()
           })
           .catch(error => {
